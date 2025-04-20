@@ -1,10 +1,12 @@
-package com.example.calculatorapp;
+package com.example.calculatorapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.calculatorapp.R;
 
 public class CalculatorActivity extends AppCompatActivity {
     @Override
