@@ -12,11 +12,6 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
-//        TextView linkTextLogin = findViewById(R.id.linkTextLogin);
-//        linkTextLogin.setOnClickListener(v -> {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivity(intent);
-//        });
     }
 
     public void showCalculator(View view) {
