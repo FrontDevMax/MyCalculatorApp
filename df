@@ -1,0 +1,23 @@
+[33mcommit e5bf8fc3f870ad42aa5d5fc92fb1f5199b6e9d89[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: FrontDevMax <snipergame2006@gmail.com>
+Date:   Sun Apr 20 21:56:52 2025 +0600
+
+    The folder structure has been changed. I use the MVC architectural pattern. Added login validation. Login validation is not finished, we need to fix the feature.
+
+[33mcommit 3f42f63a3b68a1c714a8daaa5ce4299a9b03a6c0[m
+Author: FrontDevMax <snipergame2006@gmail.com>
+Date:   Sun Apr 20 17:17:42 2025 +0600
+
+    Update activities: RegistrationActivity, LoginActivity
+
+[33mcommit 3b54bd34eb5ecc6d042a50b1f87e51e50a01d7ef[m
+Author: FrontDevMax <snipergame2006@gmail.com>
+Date:   Sun Apr 20 17:08:49 2025 +0600
+
+    The app design is complete
+
+[33mcommit 6c324769e88a5e518215fdaf1037eb4fc786b517[m
+Author: FrontDevMax <snipergame2006@gmail.com>
+Date:   Sun Apr 20 14:43:51 2025 +0600
+
+    first

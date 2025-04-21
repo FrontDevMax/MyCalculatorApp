@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/loginLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/gradient_background"
+    android:background="@drawable/bg_gradient"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <LinearLayout
@@ -46,13 +46,13 @@
             android:paddingBottom="20dp"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/darkGreen"/>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxStrokeColor="@color/darkGreen"
-            app:hintTextColor="@color/black"
+            app:hintTextColor="@color/darkGreen"
             android:backgroundTint="@color/green"
             android:hint="Электронная почта"
             app:boxCornerRadiusTopStart="8dp"
@@ -61,7 +61,6 @@
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:errorTextColor="@color/red"
-
             android:paddingBottom="30dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
@@ -76,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxStrokeColor="@color/darkGreen"
-            app:hintTextColor="@color/black"
+            app:hintTextColor="@color/darkGreen"
             app:errorTextColor="@color/red"
             app:boxStrokeErrorColor="@color/red"
             android:hint="Пароль"
@@ -84,7 +83,9 @@
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
-            android:paddingBottom="30dp">
+            app:endIconMode="password_toggle"
+            app:errorIconDrawable="@null"
+            android:paddingBottom="10dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
@@ -92,6 +93,13 @@
                 android:textColor="@color/black"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Запомнить меня"
+            android:textSize="15dp"
+            android:onClick="rememberAccount"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="58dp"

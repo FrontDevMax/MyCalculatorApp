@@ -3,26 +3,25 @@ package com.example.calculatorapp.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calculatorapp.R;
-import com.example.calculatorapp.controller.LoginController;
+import com.example.calculatorapp.controller.SignInController;
 import com.example.calculatorapp.enumeration.ErrorType;
 import com.example.calculatorapp.exception.AuthException;
-import com.example.calculatorapp.model.LoginData;
+import com.example.calculatorapp.model.SignInData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class LoginActivity extends AppCompatActivity {
-    private LoginController loginController = new LoginController();
+public class SignInActivity extends AppCompatActivity {
+    private SignInController signInController = new SignInController();
     private TextInputLayout emailLayout, passwordLayout;
     private TextInputEditText emailEditText, passwordEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.signin);
         init();
     }
 
@@ -35,14 +34,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showCalculator(View view) {
         try {
-            LoginData loginData = new LoginData(
+            SignInData signInData = new SignInData(
                     emailEditText.getText().toString(),
                     passwordEditText.getText().toString()
             );
-            loginController.validateEmail(loginData);
             emailLayout.setError(null);
-            loginController.validatePassword(loginData);
             passwordLayout.setError(null);
+            signInController.validateFields(signInData);
             Intent intent = new Intent(this, CalculatorActivity.class);
             startActivity(intent);
         } catch(AuthException ex) {
@@ -58,12 +56,18 @@ public class LoginActivity extends AppCompatActivity {
             case PASSWORD:
                 passwordLayout.setError(message);
                 break;
+            case SIGNIN:
+
         }
     }
 
     public void backToRegistration(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
+    }
+
+    public void rememberAccount(View view) {
+
     }
 
     public void authGoogle(View view) {

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/containerLogin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient_background"
+    android:background="@drawable/bg_gradient"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,8 +45,9 @@
             android:paddingBottom="10dp"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/darkGreen"/>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxStrokeColor="@color/darkGreen"
@@ -58,11 +59,13 @@
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxStrokeColor="@color/darkGreen"
@@ -74,11 +77,13 @@
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxStrokeColor="@color/darkGreen"
@@ -90,11 +95,13 @@
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirmPasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:boxStrokeColor="@color/darkGreen"
@@ -106,6 +113,7 @@
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirmPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>

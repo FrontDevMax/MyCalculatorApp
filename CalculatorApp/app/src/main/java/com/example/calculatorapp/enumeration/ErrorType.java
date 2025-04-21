@@ -3,5 +3,7 @@ package com.example.calculatorapp.enumeration;
 public enum ErrorType {
     EMAIL,
     PASSWORD,
-    USERNAME
+    CONFIRM_PASSWORD,
+    USERNAME,
+    SIGNIN,
 }
