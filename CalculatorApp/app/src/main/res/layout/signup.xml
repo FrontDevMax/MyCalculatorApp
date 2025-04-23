@@ -53,12 +53,16 @@
             app:boxStrokeColor="@color/darkGreen"
             app:hintTextColor="@color/black"
             android:hint="Имя пользователя"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorTextColor="@color/red"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
+            android:textColorHint="@color/black"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:textColor="@color/black"
                 android:id="@+id/usernameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,13 +75,17 @@
             app:boxStrokeColor="@color/darkGreen"
             app:hintTextColor="@color/black"
             android:hint="Электронная почта"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorTextColor="@color/red"
             app:boxCornerRadiusTopStart="8dp"
+            android:textColorHint="@color/black"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
@@ -89,13 +97,17 @@
             app:boxStrokeColor="@color/darkGreen"
             app:hintTextColor="@color/black"
             android:hint="Пароль"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorTextColor="@color/red"
             app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
+            android:textColorHint="@color/black"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
@@ -107,13 +119,18 @@
             app:boxStrokeColor="@color/darkGreen"
             app:hintTextColor="@color/black"
             android:hint="Повторите пароль"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorTextColor="@color/red"
+            app:errorIconDrawable="@color/red"
             app:boxCornerRadiusTopStart="8dp"
+            android:textColorHint="@color/black"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             android:paddingBottom="20dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordEditText"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
@@ -148,6 +165,9 @@
                 android:focusable="true"
                 android:onClick="backToLogin"/>
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

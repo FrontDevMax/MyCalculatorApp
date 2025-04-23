@@ -1,8 +1,11 @@
 package com.example.calculatorapp.view;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +14,8 @@ import com.example.calculatorapp.controller.SignUpController;
 import com.example.calculatorapp.enumeration.ErrorType;
 import com.example.calculatorapp.exception.AuthException;
 import com.example.calculatorapp.model.SignUpData;
+import com.example.calculatorapp.repository.UserRepo;
+import com.example.calculatorapp.utils.DatabaseHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -46,10 +51,18 @@ public class SignUpActivity extends AppCompatActivity {
                     confirmPasswordEditText.getText().toString()
             );
             resetFields();
-            signUpController.validateFields(signUpData);
-            Intent intent = new Intent(this, CalculatorActivity.class);
-            startActivity(intent);
+            signUpController.validateUsername(signUpData);
+            signUpController.validateEmail(signUpData);
+            signUpController.validatePassword(signUpData);
+            //signUpController.validateConfirmPassword(signUpData);
+
+            UserRepo userRepo = new UserRepo(new DatabaseHelper(this));
+            userRepo.registerUser(signUpData);
+
+//            Intent intent = new Intent(this, SplashScreenWelcomeActivity.class);
+//            startActivity(intent);
         } catch(AuthException ex) {
+            Log.e("SQL", "ОШИБКА");
             handleAuthError(ex.getErrorType(), ex.getMessage());
         }
     }

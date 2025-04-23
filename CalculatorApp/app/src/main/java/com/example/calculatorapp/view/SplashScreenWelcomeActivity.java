@@ -8,15 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calculatorapp.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashScreenWelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_screen);
-
+        setContentView(R.layout.splash_screen_welcome);
         new Handler().postDelayed(() -> {
-           startActivity(new Intent(this, SignInActivity.class));
-           finish();
+            startActivity(new Intent(this, CalculatorActivity.class));
+            finish();
         }, 1500);
     }
 }

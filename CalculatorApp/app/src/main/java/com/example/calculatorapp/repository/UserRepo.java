@@ -1,41 +1,31 @@
 package com.example.calculatorapp.repository;
 
-import org.mindrot.jbcrypt.BCrypt;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.example.calculatorapp.model.SignUpData;
+import com.example.calculatorapp.utils.DatabaseHelper;
 
 public class UserRepo {
-    public void registerUser(String username, String email, String confirmPassword) {
-        String hashedPassword = BCrypt.hashpw(confirmPassword, BCrypt.gensalt());
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:D:/Databases/users.db/")) {
-            String sql = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, username);
-            pstmt.setString(2, email);
-            pstmt.setString(3, hashedPassword);
-            pstmt.executeUpdate();
-        } catch(SQLException ex) {
-            ex.printStackTrace();
-        }
+    private final DatabaseHelper dbHelper;
+
+    public UserRepo(DatabaseHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 
-    public boolean signInUser(String email, String confirmPassword) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:D:/Databases/users.db/")) {
-            String sql = "SELECT password_hash FROM users WHERE email = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                String storedHash = rs.getString("password_hash");
-                return BCrypt.checkpw(confirmPassword, storedHash);
-            }
-        } catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
+    public void registerUser(SignUpData signUpData) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", signUpData.getUsername());
+        values.put("email", signUpData.getEmail());
+        values.put("password_hash", signUpData.getConfirmPassword());
+        db.insert("User", null, values);
+        db.close();
+    }
+
+    public Cursor getAllUsers(DatabaseHelper dbHelper) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.query("User", null, null, null, null, null, null);
     }
 }
