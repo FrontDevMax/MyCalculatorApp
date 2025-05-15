@@ -1,10 +1,10 @@
 package com.example.calculatorapp.model;
 
-public class SignInData {
+public class LoginRequest {
     private String email;
     private String password;
 
-    public SignInData(String email, String password) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }

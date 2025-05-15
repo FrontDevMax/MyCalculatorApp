@@ -26,6 +26,14 @@
             android:textColor="@color/black"
             android:textSize="20dp"
             android:paddingBottom="10dp"/>
+        <TextView
+            android:id="@+id/textError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="20dp"
+            android:paddingBottom="10dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,6 +46,7 @@
                 android:paddingRight="5dp"
                 android:hint="От">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/startEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="number" />
@@ -49,11 +58,17 @@
                 android:paddingLeft="5dp"
                 android:hint="До">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/endEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+        <Spinner
+            android:id="@+id/spinnerTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +76,7 @@
             android:backgroundTint="@color/darkGreen"
             android:textColor="@color/white"
             android:layout_marginTop="20dp"
-            android:onClick="startMethod"/>
+            android:onClick="startMethod1"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,52 +93,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="3dp"
             android:onClick="showHistory"/>
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:paddingTop="20dp">
-            <TableRow>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Задача 1"
-                    android:backgroundTint="@color/darkGreen"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="2.5dp"
-                    android:onClick="selectTask1"/>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Задача 3"
-                    android:backgroundTint="@color/darkGreen"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginLeft="2.5dp"
-                    android:onClick="selectTask3"/>
-            </TableRow>
-            <TableRow>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Задача 2"
-                    android:backgroundTint="@color/darkGreen"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="2.5dp"
-                    android:onClick="selectTask2"/>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Задача 4"
-                    android:backgroundTint="@color/darkGreen"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginLeft="2.5dp"
-                    android:onClick="selectTask4"/>
-            </TableRow>
-        </TableLayout>
+
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
@@ -131,6 +101,7 @@
             android:fillViewport="true"
             android:paddingTop="20dp">
             <TextView
+                android:id="@+id/logs"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="#F4F4F4"

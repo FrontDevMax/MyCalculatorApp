@@ -1,9 +1,9 @@
 package com.example.calculatorapp.enumeration;
 
-public enum ErrorType {
+public enum AuthError {
     EMAIL,
     PASSWORD,
     CONFIRM_PASSWORD,
     USERNAME,
-    SIGNIN,
+    LOGIN,
 }

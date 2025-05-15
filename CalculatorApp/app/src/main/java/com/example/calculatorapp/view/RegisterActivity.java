@@ -1,33 +1,28 @@
 package com.example.calculatorapp.view;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calculatorapp.R;
-import com.example.calculatorapp.controller.SignUpController;
-import com.example.calculatorapp.enumeration.ErrorType;
+import com.example.calculatorapp.controller.RegisterController;
+import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
-import com.example.calculatorapp.model.SignUpData;
-import com.example.calculatorapp.repository.UserRepo;
-import com.example.calculatorapp.utils.DatabaseHelper;
+import com.example.calculatorapp.model.RegisterRequest;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class SignUpActivity extends AppCompatActivity {
-    private SignUpController signUpController = new SignUpController();
+public class RegisterActivity extends AppCompatActivity {
+    private RegisterController registerController = new RegisterController();
     private TextInputLayout usernameLayout, emailLayout, passwordLayout, confirmPasswordLayout;
     private TextInputEditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup);
+        setContentView(R.layout.register);
         init();
     }
 
@@ -44,38 +39,30 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void showCalculator(View view) {
         try {
-            SignUpData signUpData = new SignUpData(
+            RegisterRequest registerRequest = new RegisterRequest(
                     usernameEditText.getText().toString(),
                     emailEditText.getText().toString(),
                     passwordEditText.getText().toString(),
                     confirmPasswordEditText.getText().toString()
             );
-            resetFields();
-            signUpController.validateUsername(signUpData);
-            signUpController.validateEmail(signUpData);
-            signUpController.validatePassword(signUpData);
-            //signUpController.validateConfirmPassword(signUpData);
-
-            UserRepo userRepo = new UserRepo(new DatabaseHelper(this));
-            userRepo.registerUser(signUpData);
-
-//            Intent intent = new Intent(this, SplashScreenWelcomeActivity.class);
-//            startActivity(intent);
+            clearFields();
+            registerController.validateRegister(registerRequest);
+            Intent intent = new Intent(this, SplashScreenWelcomeActivity.class);
+            startActivity(intent);
         } catch(AuthException ex) {
-            Log.e("SQL", "ОШИБКА");
             handleAuthError(ex.getErrorType(), ex.getMessage());
         }
     }
 
-    private void resetFields() {
+    private void clearFields() {
         usernameLayout.setError(null);
         emailLayout.setError(null);
         passwordLayout.setError(null);
         confirmPasswordLayout.setError(null);
     }
 
-    private void handleAuthError(ErrorType errorType, String message) {
-        switch(errorType) {
+    private void handleAuthError(AuthError authError, String message) {
+        switch(authError) {
             case USERNAME:
                 usernameLayout.setError(message);
                 break;
@@ -92,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void backToLogin(View view) {
-        Intent intent = new Intent(this, SignInActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }

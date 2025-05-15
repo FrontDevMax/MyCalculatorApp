@@ -1,15 +1,15 @@
 package com.example.calculatorapp.exception;
 
-import com.example.calculatorapp.enumeration.ErrorType;
+import com.example.calculatorapp.enumeration.AuthError;
 
 public class AuthException extends Exception {
-    private final ErrorType errorType;
-    public AuthException(ErrorType errorType, String message) {
+    private final AuthError authError;
+    public AuthException(AuthError authError, String message) {
         super(message);
-        this.errorType = errorType;
+        this.authError = authError;
     }
 
-    public ErrorType getErrorType() {
-        return errorType;
+    public AuthError getErrorType() {
+        return authError;
     }
 }
