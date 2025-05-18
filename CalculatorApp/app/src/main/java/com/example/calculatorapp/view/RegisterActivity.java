@@ -1,23 +1,28 @@
 package com.example.calculatorapp.view;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.calculatorapp.R;
 import com.example.calculatorapp.controller.RegisterController;
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
 import com.example.calculatorapp.model.RegisterRequest;
+import com.example.calculatorapp.util.Router;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements BackPressHandler {
     private RegisterController registerController = new RegisterController();
-    private TextInputLayout usernameLayout, emailLayout, passwordLayout, confirmPasswordLayout;
-    private TextInputEditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    private Router router = new Router(this);
+    private TextInputLayout usernameInputLayout, emailInputLayout, passwordInputLayout, confirmPasswordInputLayout;
+    private TextInputEditText usernameInputEditText, emailInputEditText, passwordInputEditText, confirmPasswordInputEditText;
+    private ImageView passwordToggle, confirmPasswordToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,59 +32,79 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void init() {
-        usernameLayout = findViewById(R.id.usernameLayout);
-        emailLayout = findViewById(R.id.emailLayout);
-        passwordLayout = findViewById(R.id.passwordLayout);
-        confirmPasswordLayout = findViewById(R.id.confirmPasswordLayout);
-        usernameEditText = findViewById(R.id.usernameEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
+        usernameInputLayout = findViewById(R.id.usernameInputLayout);
+        emailInputLayout = findViewById(R.id.emailInputLayout);
+        passwordInputLayout = findViewById(R.id.passwordInputLayout);
+        confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
+        usernameInputEditText = findViewById(R.id.usernameInputEditText);
+        emailInputEditText = findViewById(R.id.emailInputEditText);
+        passwordInputEditText = findViewById(R.id.passwordInputEditText);
+        confirmPasswordInputEditText = findViewById(R.id.confirmPasswordInputEditText);
+        passwordToggle = passwordInputLayout.findViewById(com.google.android.material.R.id.text_input_end_icon);
+        confirmPasswordToggle = confirmPasswordInputLayout.findViewById(com.google.android.material.R.id.text_input_end_icon);
     }
 
     public void showCalculator(View view) {
         try {
             RegisterRequest registerRequest = new RegisterRequest(
-                    usernameEditText.getText().toString(),
-                    emailEditText.getText().toString(),
-                    passwordEditText.getText().toString(),
-                    confirmPasswordEditText.getText().toString()
+                    usernameInputEditText.getText().toString(),
+                    emailInputEditText.getText().toString(),
+                    passwordInputEditText.getText().toString(),
+                    confirmPasswordInputEditText.getText().toString()
             );
-            clearFields();
+            resetFields();
             registerController.validateRegister(registerRequest);
-            Intent intent = new Intent(this, SplashScreenWelcomeActivity.class);
-            startActivity(intent);
+            router.navigateTo(ScreenWelcomeActivity.class);
+            resetData();
         } catch(AuthException ex) {
             handleAuthError(ex.getErrorType(), ex.getMessage());
         }
     }
 
-    private void clearFields() {
-        usernameLayout.setError(null);
-        emailLayout.setError(null);
-        passwordLayout.setError(null);
-        confirmPasswordLayout.setError(null);
+    private void resetFields() {
+        usernameInputLayout.setError(null);
+        emailInputLayout.setError(null);
+        passwordInputLayout.setError(null);
+        confirmPasswordInputLayout.setError(null);
+        usernameInputLayout.setErrorEnabled(false);
+        emailInputLayout.setErrorEnabled(false);
+        passwordInputLayout.setErrorEnabled(false);
+        confirmPasswordInputLayout.setErrorEnabled(false);
+        passwordToggle.setColorFilter(ContextCompat.getColor(this, R.color.darkGreen));
+        confirmPasswordToggle.setColorFilter(ContextCompat.getColor(this, R.color.darkGreen));
     }
 
     private void handleAuthError(AuthError authError, String message) {
         switch(authError) {
             case USERNAME:
-                usernameLayout.setError(message);
+                usernameInputLayout.setError(message);
                 break;
             case EMAIL:
-                emailLayout.setError(message);
+                emailInputLayout.setError(message);
                 break;
             case PASSWORD:
-                passwordLayout.setError(message);
+                passwordInputLayout.setError(message);
+                passwordToggle.setColorFilter(
+                        ContextCompat.getColor(this, R.color.red)
+                );
                 break;
             case CONFIRM_PASSWORD:
-                confirmPasswordLayout.setError(message);
+                confirmPasswordInputLayout.setError(message);
+                confirmPasswordToggle.setColorFilter(
+                        ContextCompat.getColor(this, R.color.red)
+                );
                 break;
         }
     }
 
+    public void resetData() {
+        usernameInputEditText.setText("");
+        emailInputEditText.setText("");
+        passwordInputEditText.setText("");
+        confirmPasswordInputEditText.setText("");
+    }
+
     public void backToLogin(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        router.navigateTo(LoginActivity.class);
     }
 }

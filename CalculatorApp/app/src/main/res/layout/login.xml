@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="Авторизация"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="20dp"
+            android:paddingBottom="10dp"
             android:textStyle="bold"
             android:textSize="30dp"
             android:textColor="@color/darkGreen"/>
@@ -53,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="10dp"
-            android:textStyle="bold"
             android:textSize="15dp"
             android:textColor="@color/red"/>
         <com.google.android.material.textfield.TextInputLayout
@@ -69,8 +68,10 @@
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+            app:errorIconTint="@color/red"
             app:errorTextColor="@color/red"
-            android:paddingBottom="30dp">
+            app:cursorColor="@color/darkGreen"
+            android:paddingBottom="15dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
                 android:textColor="@color/black"
@@ -93,8 +94,10 @@
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
             app:endIconMode="password_toggle"
+            app:endIconTint="@color/darkGreen"
+            app:cursorColor="@color/darkGreen"
             app:errorIconDrawable="@null"
-            android:paddingBottom="10dp">
+            android:paddingBottom="5dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
@@ -115,7 +118,7 @@
             android:backgroundTint="@color/darkGreen"
             android:text="Авторизация"
             android:textColor="@color/white"
-            app:boxCornerRadiusTopStart="20dp"
+            app:boxCornerRadiusTopStart="8dp"
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -142,19 +145,11 @@
                 android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="backToRegistration"/>
+                android:onClick="showRegister"/>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:backgroundTint="@color/darkGreen"
-                android:text="Авторизация через Госуслуги"
-                android:textColor="@color/white"
-                android:layout_marginBottom="10dp"
-                android:layout_above="@id/btnAuthGoogle"/>
             <Button
                 android:id="@+id/btnAuthGoogle"
                 android:layout_width="match_parent"

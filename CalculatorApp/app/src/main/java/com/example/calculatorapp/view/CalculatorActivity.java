@@ -1,13 +1,16 @@
 package com.example.calculatorapp.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.calculatorapp.R;
 import com.example.calculatorapp.controller.CalculatorController;
@@ -19,16 +22,20 @@ import com.example.calculatorapp.task.Task1;
 import com.example.calculatorapp.task.Task2;
 import com.example.calculatorapp.task.Task6;
 import com.example.calculatorapp.task.Task8;
+import com.example.calculatorapp.util.Router;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CalculatorActivity extends AppCompatActivity {
-    private Spinner spinnerTasks;
-    private TextInputEditText startEditText, endEditText;
-    private TextView textError, logs;
+public class CalculatorActivity extends AppCompatActivity implements BackPressHandler {
     private CalculatorController calculatorController = new CalculatorController();
+    private Router router = new Router(this);
+    private Spinner spinnerTasks;
+    private TextInputEditText startInputEditText, endInputEditText;
+    private TextInputLayout startInputLayout, endInputLayout;
+    private TextView textError, logs;
     private List<Task> listTasks;
 
     @Override
@@ -40,8 +47,10 @@ public class CalculatorActivity extends AppCompatActivity {
 
     private void init() {
         spinnerTasks = findViewById(R.id.spinnerTasks);
-        startEditText = findViewById(R.id.startEditText);
-        endEditText = findViewById(R.id.endEditText);
+        startInputEditText = findViewById(R.id.startInputEditText);
+        endInputEditText = findViewById(R.id.endInputEditText);
+        startInputLayout = findViewById(R.id.startInputLayout);
+        endInputLayout = findViewById(R.id.endInputLayout);
         textError = findViewById(R.id.textError);
         logs = findViewById(R.id.logs);
     }
@@ -56,15 +65,14 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void showHistory(View view) {
-        Intent intent = new Intent(this, HistoryActivity.class);
-        startActivity(intent);
+        router.navigateToWithSavedActivity(HistoryActivity.class);
     }
 
-    /*public void startMethod(View view) {
+    public void startMethod(View view) {
         try {
             CalculatorModel calculatorModel = new CalculatorModel(
-                    Integer.parseInt(String.valueOf(startEditText.getText())),
-                    Integer.parseInt(String.valueOf(endEditText.getText()))
+                    String.valueOf(startInputEditText.getText()),
+                    String.valueOf(endInputEditText.getText())
             );
             calculatorController.validateInput(calculatorModel);
             listTasks = getListTasks();
@@ -74,43 +82,36 @@ public class CalculatorActivity extends AppCompatActivity {
             handleNumError(ex.getNumError(), ex.getMessage());
         }
     }
-*/
+
+    private void resetFields() {
+        textError.setText("");
+        startInputLayout.setBoxStrokeColor(ContextCompat.getColor(this, R.color.darkGreen));
+        endInputLayout.setBoxStrokeColor(ContextCompat.getColor(this, R.color.darkGreen));
+    }
+
     private void handleNumError(NumError numError, String message) {
         switch(numError) {
-            case EMPTY:
+            case EMPTY_START:
                 textError.setText(message);
-            case LESS_ZERO:
+                startInputLayout.setErrorEnabled(true);
+            case LIMIT_START:
                 textError.setText(message);
-            case FLOATING_NUM:
+            case EMPTY_END:
                 textError.setText(message);
-            case LIMIT_NUM:
+            case LIMIT_END:
                 textError.setText(message);
         }
     }
 
     private void showTask(Task task) {
-        int start = Integer.parseInt(String.valueOf(startEditText.getText()));
-        int end = Integer.parseInt(String.valueOf(endEditText.getText()));
+        int start = Integer.parseInt(String.valueOf(startInputEditText.getText()));
+        int end = Integer.parseInt(String.valueOf(endInputEditText.getText()));
         task.runTask(start, end);
     }
 
-    public void startMethod1(View view) {
-        try {
-            CalculatorModel calculatorModel = new CalculatorModel(
-                    startEditText.getText().toString(),
-                    endEditText.getText().toString()
-            );
-            calculatorController.validateInput(calculatorModel);
-            /*listTasks = getListTasks();
-            int selectItem = spinnerTasks.getSelectedItemPosition();
-            showTask(listTasks.get(selectItem - 1));*/
-        } catch(NumException ex) {
-            handleNumError(ex.getNumError(), ex.getMessage());
-        }
+    public void clearFields(View view) {
+        startInputEditText.setText("");
+        endInputEditText.setText("");
     }
-
-//    public void cleanFields(View view) {
-//
-//    }
 
 }

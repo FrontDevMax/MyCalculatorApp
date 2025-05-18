@@ -10,10 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CalculatorApp"
+        android:theme="@style/Theme.App.Transparent"
         tools:targetApi="31">
         <activity
-            android:name=".view.SplashScreenMainActivity"
+            android:name=".view.ScreenMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,10 +36,11 @@
         </activity>
         <activity
             android:name=".view.HistoryActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity
-            android:name=".view.SplashScreenWelcomeActivity"
+            android:name=".view.ScreenWelcomeActivity"
             android:exported="true">
         </activity>
     </application>

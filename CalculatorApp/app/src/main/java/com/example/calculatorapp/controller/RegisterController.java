@@ -2,14 +2,14 @@ package com.example.calculatorapp.controller;
 
 import com.example.calculatorapp.exception.AuthException;
 import com.example.calculatorapp.model.RegisterRequest;
-import com.example.calculatorapp.util.Validator;
+import com.example.calculatorapp.validator.AuthValidator;
 
 public class RegisterController {
     public void validateRegister(RegisterRequest registerRequest) throws AuthException {
-        Validator.validateUsername(registerRequest.getUsername());
-        Validator.validateEmail(registerRequest.getEmail());
-        Validator.validatePassword(registerRequest.getPassword());
-        Validator.validateConfirmPassword(
+        AuthValidator.validateUsername(registerRequest.getUsername());
+        AuthValidator.validateEmail(registerRequest.getEmail());
+        AuthValidator.validatePassword(registerRequest.getPassword());
+        AuthValidator.validateConfirmPassword(
                 registerRequest.getPassword(),
                 registerRequest.getConfirmPassword()
         );
