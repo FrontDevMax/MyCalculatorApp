@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calculatorapp.R;
 
-public class SplashScreenWelcomeActivity extends AppCompatActivity {
+public class ScreenWelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

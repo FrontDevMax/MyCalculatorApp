@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calculatorapp.R;
 
-public class SplashScreenMainActivity extends AppCompatActivity {
+public class ScreenMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +16,6 @@ public class SplashScreenMainActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
            startActivity(new Intent(this, LoginActivity.class));
            finish();
-        }, 1500);
+        }, 2000);
     }
 }

@@ -46,6 +46,7 @@
             android:fillViewport="true"
             android:scrollbars="vertical">
             <TextView
+                android:id="@+id/textHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text=""

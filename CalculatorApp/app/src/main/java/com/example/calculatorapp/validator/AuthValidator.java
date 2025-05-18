@@ -1,11 +1,13 @@
-package com.example.calculatorapp.util;
+package com.example.calculatorapp.validator;
 
 import android.util.Patterns;
 
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
 
-public final class Validator {
+public final class AuthValidator {
+    private AuthValidator(){}
+
     public static void validateUser(String email, String password) throws AuthException {
         if(!email.equals("admin@gmail.com") || !password.equals("admin")) {
             throw new AuthException(AuthError.LOGIN, "Неверный email или password");

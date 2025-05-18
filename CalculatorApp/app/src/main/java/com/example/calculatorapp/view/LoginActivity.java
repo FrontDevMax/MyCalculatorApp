@@ -1,67 +1,84 @@
 package com.example.calculatorapp.view;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.calculatorapp.R;
 import com.example.calculatorapp.controller.LoginController;
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
 import com.example.calculatorapp.model.LoginRequest;
+import com.example.calculatorapp.util.Router;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements BackPressHandler {
     private LoginController loginController = new LoginController();
+    private Router router = new Router(this);
     private TextView textError;
-    private TextInputLayout emailLayout, passwordLayout;
-    private TextInputEditText emailEditText, passwordEditText;
+    private TextInputLayout emailInputLayout, passwordInputLayout;
+    private TextInputEditText emailInputEditText, passwordInputEditText;
+    private ImageView passwordToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         init();
+        setupBackPress(this, true);
     }
 
     private void init() {
-        emailLayout = findViewById(R.id.emailLayout);
-        passwordLayout = findViewById(R.id.passwordLayout);
-        emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
+        emailInputLayout = findViewById(R.id.emailLayout);
+        passwordInputLayout = findViewById(R.id.passwordLayout);
+        emailInputEditText = findViewById(R.id.emailEditText);
+        passwordInputEditText = findViewById(R.id.passwordEditText);
         textError = findViewById(R.id.textError);
+        passwordToggle = passwordInputLayout.findViewById(
+                com.google.android.material.R.id.text_input_end_icon
+        );
     }
 
     public void showCalculator(View view) {
         try {
+            resetFields();
             LoginRequest loginRequest = new LoginRequest(
-                    emailEditText.getText().toString(),
-                    passwordEditText.getText().toString()
+                    emailInputEditText.getText().toString(),
+                    passwordInputEditText.getText().toString()
             );
-            clearFields();
-            loginController.validateSignIn(loginRequest);
-            Intent intent = new Intent(this, SplashScreenWelcomeActivity.class);
-            startActivity(intent);
+            loginController.validateLogin(loginRequest);
+            router.navigateTo(ScreenWelcomeActivity.class);
         } catch(AuthException ex) {
             handleAuthError(ex.getErrorType(), ex.getMessage());
         }
     }
 
-    private void clearFields() {
-        emailLayout.setError(null);
-        passwordLayout.setError(null);
+    private void resetFields() {
+        emailInputLayout.setError(null);
+        passwordInputLayout.setError(null);
+        emailInputLayout.setErrorEnabled(false);
+        passwordInputLayout.setErrorEnabled(false);
+        passwordToggle.setColorFilter(ContextCompat.getColor(this, R.color.darkGreen));
+        textError.setText("");
     }
 
     private void handleAuthError(AuthError error, String message) {
         switch(error) {
             case EMAIL:
-                emailLayout.setError(message);
+                emailInputLayout.setError(message);
                 break;
             case PASSWORD:
-                passwordLayout.setError(message);
+                passwordInputLayout.setError(message);
+                passwordToggle.setColorFilter(
+                        ContextCompat.getColor(this, R.color.red)
+                );
                 break;
             case LOGIN:
                 textError.setText(message);
@@ -69,9 +86,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void backToRegistration(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+    public void showRegister(View view) {
+        router.navigateTo(RegisterActivity.class);
     }
 
     public void rememberAccount(View view) {
