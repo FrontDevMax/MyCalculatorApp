@@ -5,6 +5,7 @@ import com.example.calculatorapp.util.Logger;
 public class Task1 implements Task {
     @Override
     public void runTask(int start, int end) {
+<<<<<<< HEAD
         int num = start;
         for(int i = start; i <= end; i++) {
             int length = getLength(i);
@@ -45,5 +46,7 @@ public class Task1 implements Task {
 
     private boolean isInteger(double result) {
         return result % 1 == 0;
+=======
+>>>>>>> 762fa47b2cdb5880465c82ad77ed8758b6f7307f
     }
 }

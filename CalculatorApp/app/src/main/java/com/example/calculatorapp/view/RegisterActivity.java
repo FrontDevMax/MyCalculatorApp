@@ -108,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity implements BackPressHand
 
     public void backToLogin(View view) {
         router.navigateTo(LoginActivity.class);
+<<<<<<< HEAD
     }
 
     private void autoAuth() {
@@ -127,5 +128,7 @@ public class RegisterActivity extends AppCompatActivity implements BackPressHand
 
             }
         });
+=======
+>>>>>>> 762fa47b2cdb5880465c82ad77ed8758b6f7307f
     }
 }
