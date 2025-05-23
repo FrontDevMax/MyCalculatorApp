@@ -1,52 +1,59 @@
 package com.example.calculatorapp.task;
 
+import android.util.Log;
+
 import com.example.calculatorapp.util.Logger;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 
 public class Task1 implements Task {
     @Override
-    public void runTask(int start, int end) {
-<<<<<<< HEAD
-        int num = start;
-        for(int i = start; i <= end; i++) {
-            int length = getLength(i);
-            int multiply = multiplyNumbers(i, length);
-            double result = calcResult(i, multiply);
-            showResult(i, result);
+    public void runTask(String first, String last) {
+        BigInteger start = new BigInteger(first);
+        BigInteger end = new BigInteger(last);
+        while(start.compareTo(end) <= 0) {
+            BigInteger temp = new BigInteger(start.toString());
+            int length = first.length();
+            BigInteger multiply = multiplyNumbers(temp, length);
+            if(isZero(multiply)) {
+                start = start.add(BigInteger.ONE);
+                continue;
+            }
+            BigDecimal result = calcResult(start, multiply);
+            showResult(start, result);
+            start = start.add(BigInteger.ONE);
         }
     }
 
-    private int multiplyNumbers(int start, int length) {
-        int multiply = 1;
+    private boolean isZero(BigInteger multiply) {
+        if(multiply.compareTo(BigInteger.ZERO) == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private BigInteger multiplyNumbers(BigInteger start, int length) {
+        BigInteger multiply = BigInteger.ONE;
         for(int i = 0; i < length; i++) {
-            multiply *= start % 10;
-            start /= 10;
+            multiply = multiply.multiply(start.mod(BigInteger.TEN));
+            start = start.divide(BigInteger.TEN);
         }
         return multiply;
     }
 
-    private int getLength(int start) {
-        int count = 0;
-        while(start > 0) {
-            int digit = start % 10;
-            start /= 10;
-            count++;
-        }
-        return count;
+    private BigDecimal calcResult(BigInteger start, BigInteger multiply) {
+        return new BigDecimal(start).divide(new BigDecimal(multiply), 10, RoundingMode.HALF_UP);
     }
 
-    private double calcResult(int start, int multiply) {
-        return (double) start / multiply;
-    }
-
-    private void showResult(int start, double result) {
+    private void showResult(BigInteger start, BigDecimal result) {
         if(isInteger(result)) {
-            System.out.println(start);
+            Logger.add(start.toString());
         }
     }
 
-    private boolean isInteger(double result) {
-        return result % 1 == 0;
-=======
->>>>>>> 762fa47b2cdb5880465c82ad77ed8758b6f7307f
+    private boolean isInteger(BigDecimal result) {
+        return result.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) == 0;
     }
 }

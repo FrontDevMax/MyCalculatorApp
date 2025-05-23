@@ -3,5 +3,16 @@
     <style name="Theme.App.Transparent" parent="Base.Theme.CalculatorApp">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/bg_gradient</item>
+        <item name="android:textColor">@color/darkGreen</item>
+    </style>
+
+    <style name="MyAlertDialogTheme" parent="Theme.Material3.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/MyDialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MyDialogButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/MyDialogButtonStyle</item>
+    </style>
+
+    <style name="MyDialogButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/darkGreen</item>
     </style>
 </resources>

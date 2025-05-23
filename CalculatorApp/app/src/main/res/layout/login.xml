@@ -75,6 +75,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
                 android:textColor="@color/black"
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
@@ -101,6 +102,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
+                android:text=""
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:inputType="textPassword"/>
@@ -123,7 +125,6 @@
             app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
-            android:enabled="false"
             android:onClick="showCalculator"/>
         <LinearLayout
             android:layout_width="match_parent"

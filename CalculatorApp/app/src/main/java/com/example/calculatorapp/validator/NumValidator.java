@@ -6,29 +6,19 @@ import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.enumeration.NumError;
 import com.example.calculatorapp.exception.AuthException;
 import com.example.calculatorapp.exception.NumException;
+import com.example.calculatorapp.model.CalculatorModel;
 
-public final class NumValidator {
-    private NumValidator(){}
+public final class NumValidator implements FieldNumValidator<CalculatorModel> {
+    private FieldNumValidator<CalculatorModel> startNumValidator, endNumValidator;
 
-    public static void validateStartNum(String startNum) throws NumException {
-        if(startNum.equals("")) {
-            throw new NumException(NumError.EMPTY_START, "Начало диапазона не может быть пустым");
-        } else if(Integer.parseInt(startNum) > 2_147_483_646) {
-            throw new NumException(NumError.LIMIT_START, "Начало диапазона слишком большое");
-        }
+    public NumValidator() {
+        this.startNumValidator = new StartNumValidator();
+        this.endNumValidator = new EndNumValidator();
     }
 
-    public static void validateEndNum(String endNum) throws NumException {
-        if(endNum.equals("")) {
-            throw new NumException(NumError.EMPTY_END, "Конец диапазона не может быть пустым");
-        } else if(Integer.parseInt(endNum) > 2_147_483_646) {
-            throw new NumException(NumError.LIMIT_END, "Конец диапазона слишком большое");
-        }
-    }
-
-    public static void validateStartNum(String startNum, String endNum) throws NumException {
-        if(Integer.parseInt(startNum) > Integer.parseInt(endNum)) {
-            throw new NumException(NumError.START_MORE_END, "Начало диапазона больше чем конечное");
-        }
+    @Override
+    public void validate(CalculatorModel calculatorModel) throws NumException {
+        startNumValidator.validate(calculatorModel);
+        endNumValidator.validate(calculatorModel);
     }
 }

@@ -22,15 +22,21 @@ import com.example.calculatorapp.task.Task1;
 import com.example.calculatorapp.task.Task2;
 import com.example.calculatorapp.task.Task6;
 import com.example.calculatorapp.task.Task8;
+import com.example.calculatorapp.util.DisplayError;
+import com.example.calculatorapp.util.Field;
+import com.example.calculatorapp.util.Logger;
+import com.example.calculatorapp.util.ResetInput;
 import com.example.calculatorapp.util.Router;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
 public class CalculatorActivity extends AppCompatActivity implements BackPressHandler {
     private CalculatorController calculatorController = new CalculatorController();
+    private CalculatorModel calculatorModel = new CalculatorModel();
     private Router router = new Router(this);
     private Spinner spinnerTasks;
     private TextInputEditText startInputEditText, endInputEditText;
@@ -43,6 +49,7 @@ public class CalculatorActivity extends AppCompatActivity implements BackPressHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calculator);
         init();
+        setupBackPress(this, true);
     }
 
     private void init() {
@@ -53,6 +60,8 @@ public class CalculatorActivity extends AppCompatActivity implements BackPressHa
         endInputLayout = findViewById(R.id.endInputLayout);
         textError = findViewById(R.id.textError);
         logs = findViewById(R.id.logs);
+        calculatorModel.setStartNum("");
+        calculatorModel.setEndNum("");
     }
 
     private List<Task> getListTasks() {
@@ -69,49 +78,51 @@ public class CalculatorActivity extends AppCompatActivity implements BackPressHa
     }
 
     public void startMethod(View view) {
+        resetAllErrors();
         try {
-            CalculatorModel calculatorModel = new CalculatorModel(
-                    String.valueOf(startInputEditText.getText()),
-                    String.valueOf(endInputEditText.getText())
-            );
+            calculatorModel.setStartNum(Field.getField(startInputEditText));
+            calculatorModel.setEndNum(Field.getField(endInputEditText));
             calculatorController.validateInput(calculatorModel);
             listTasks = getListTasks();
-//            int selectItem = spinnerTasks.getSelectedItemPosition();
-//            showTask(listTasks.get(selectItem - 1));
+            int selectedItem = spinnerTasks.getSelectedItemPosition();
+            showTask(listTasks.get(selectedItem));
         } catch(NumException ex) {
             handleNumError(ex.getNumError(), ex.getMessage());
         }
     }
 
-    private void resetFields() {
-        textError.setText("");
-        startInputLayout.setBoxStrokeColor(ContextCompat.getColor(this, R.color.darkGreen));
-        endInputLayout.setBoxStrokeColor(ContextCompat.getColor(this, R.color.darkGreen));
+    private void resetAllErrors() {
+        ResetInput.reset(textError);
+        ResetInput.reset(startInputLayout);
+        ResetInput.reset(endInputLayout);
     }
 
     private void handleNumError(NumError numError, String message) {
         switch(numError) {
-            case EMPTY_START:
-                textError.setText(message);
-                startInputLayout.setErrorEnabled(true);
-            case LIMIT_START:
-                textError.setText(message);
-            case EMPTY_END:
-                textError.setText(message);
-            case LIMIT_END:
-                textError.setText(message);
+            case INVALID_START_NUM:
+                DisplayError.showError(textError, message);
+                DisplayError.showError(startInputLayout, " ");
+                break;
+            case INVALID_END_NUM:
+                DisplayError.showError(textError, message);
+                DisplayError.showError(endInputLayout, " ");
+                break;
+            default:
+                DisplayError.showError(textError, "Что-то пошло не так");
+                break;
         }
     }
 
     private void showTask(Task task) {
-        int start = Integer.parseInt(String.valueOf(startInputEditText.getText()));
-        int end = Integer.parseInt(String.valueOf(endInputEditText.getText()));
-        task.runTask(start, end);
+        String first = Field.getField(startInputEditText);
+        String last = Field.getField(endInputEditText);
+        task.runTask(first, last);
+        Logger.log(logs);
     }
 
     public void clearFields(View view) {
-        startInputEditText.setText("");
-        endInputEditText.setText("");
+        ResetInput.reset(startInputEditText);
+        ResetInput.reset(endInputEditText);
     }
 
 }

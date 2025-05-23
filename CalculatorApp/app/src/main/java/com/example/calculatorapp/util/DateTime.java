@@ -11,6 +11,6 @@ public final class DateTime {
 
     public static String getCurrentTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd, hh:mm:ss.SSS");
-        return simpleDateFormat.format(Calendar.getInstance().getTime());
+        return "[" + simpleDateFormat.format(Calendar.getInstance().getTime()) + "]: ";
     }
 }

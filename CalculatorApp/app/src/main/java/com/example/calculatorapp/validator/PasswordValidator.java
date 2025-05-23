@@ -2,24 +2,15 @@ package com.example.calculatorapp.validator;
 
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
+import com.example.calculatorapp.model.Credentials;
 
-public class PasswordValidator implements FieldValidator {
-    private String message;
-
+public class PasswordValidator implements FieldAuthValidator<Credentials> {
     @Override
-    public boolean isValid(String password) {
-        if(password.equals("")) {
-            message = "Пароль не должен быть пустым!";
-            return true;
-        } else if(password.length() > 8) {
-            message = "Длина пароля должна быть не более 8 символов";
-            return true;
+    public void validate(Credentials credentials) throws AuthException {
+        if(credentials.getPassword().equals("")) {
+            throw new AuthException(AuthError.INVALID_PASSWORD, "Пароль не должен быть пустым!");
+        } else if(credentials.getPassword().length() > 8) {
+            throw new AuthException(AuthError.INVALID_PASSWORD, "Длина пароля должна быть не более 8 символов");
         }
-        return false;
-    }
-
-    @Override
-    public String getErrorMessage() {
-        return message;
     }
 }

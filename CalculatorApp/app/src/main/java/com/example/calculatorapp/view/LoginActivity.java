@@ -1,42 +1,40 @@
 package com.example.calculatorapp.view;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.calculatorapp.R;
 import com.example.calculatorapp.controller.LoginController;
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
+import com.example.calculatorapp.model.Credentials;
 import com.example.calculatorapp.model.LoginRequest;
-import com.example.calculatorapp.util.ResetAuthInput;
+import com.example.calculatorapp.util.ClearTextWatcher;
+import com.example.calculatorapp.util.DisplayError;
+import com.example.calculatorapp.util.Field;
+import com.example.calculatorapp.util.ResetInput;
 import com.example.calculatorapp.util.Router;
-import com.example.calculatorapp.validator.LoginValidator;
-import com.example.calculatorapp.validator.FieldValidator;
-import com.example.calculatorapp.util.Router;
+import com.example.calculatorapp.validator.EmailValidator;
+import com.example.calculatorapp.validator.FieldAuthValidator;
+import com.example.calculatorapp.validator.PasswordValidator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends AppCompatActivity implements BackPressHandler {
     private LoginController loginController = new LoginController();
-    private LoginValidator loginValidator = new LoginValidator();
     private LoginRequest loginRequest = new LoginRequest();
+    private FieldAuthValidator<Credentials> emailValidator = new EmailValidator();
+    private FieldAuthValidator<Credentials> passwordValidator = new PasswordValidator();
+    private Credentials credentials;
     private Router router = new Router(this);
     private TextView textError;
     private TextInputLayout emailInputLayout, passwordInputLayout;
     private TextInputEditText emailInputEditText, passwordInputEditText;
     private ImageView passwordToggle;
-    private Button btnAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,36 +43,7 @@ public class LoginActivity extends AppCompatActivity implements BackPressHandler
         init();
         setupValidation();
         setupBackPress(this, true);
-        setupButtonState();
     }
-
-    private void setupValidation() {
-        emailInputEditText.setOnFocusChangeListener((v, hasFocus) -> {
-            if(!hasFocus) {
-                ResetAuthInput.resetEmail(emailInputLayout);
-                loginRequest.setEmail(emailInputEditText.getText().toString().trim());
-                //loginController.validateLogin();
-            }
-        });
-        passwordInputEditText.setOnFocusChangeListener((v, hasFocus) -> {
-            if(!hasFocus) {
-                ResetAuthInput.resetPassword(passwordInputLayout, passwordToggle);
-                loginRequest.setPassword(passwordInputEditText.getText().toString().trim());
-                //validateCurrentField(AuthError.PASSWORD, loginRequest.getPassword(), passwordValidator);
-            }
-        });
-        setupBackPress(this, true);
-    }
-
-//    private void validateCurrentField() {
-//        try {
-//            loginValidator.validateEmail();
-//        } catch (AuthException ex) {
-//            resetFields();
-//            loginController.validateLogin(loginRequest);
-//            router.navigateTo(ScreenWelcomeActivity.class);
-//        }
-//    }
 
     private void init() {
         emailInputLayout = findViewById(R.id.emailLayout);
@@ -85,54 +54,71 @@ public class LoginActivity extends AppCompatActivity implements BackPressHandler
         passwordToggle = passwordInputLayout.findViewById(
                 com.google.android.material.R.id.text_input_end_icon
         );
-        btnAuth = findViewById(R.id.btnAuth);
+        credentials = loginRequest.getCredentials();
+        credentials.setEmail("");
+        credentials.setPassword("");
     }
 
-    private void setupButtonState() {
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //btnAuth.setEnabled(isLoginValid());
+    private void setupValidation() {
+        setupTextWatchers();
+        emailInputEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus) {
+                credentials.setEmail(Field.getField(emailInputEditText));
+                ResetInput.reset(emailInputLayout);
+                validateField(emailValidator, credentials);
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        };
-        emailInputEditText.addTextChangedListener(textWatcher);
-        passwordInputEditText.addTextChangedListener(textWatcher);
+        });
+        passwordInputEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus) {
+                credentials.setPassword(Field.getField(passwordInputEditText));
+                ResetInput.reset(passwordInputLayout, passwordToggle);
+                validateField(passwordValidator, credentials);
+            }
+        });
     }
 
-    public void showCalculator(View view) {
-        setupValidation();
-        router.navigateTo(ScreenWelcomeActivity.class);
+    private void setupTextWatchers() {
+        emailInputEditText.addTextChangedListener(new ClearTextWatcher(emailInputLayout, textError, passwordToggle));
+        passwordInputEditText.addTextChangedListener(new ClearTextWatcher(passwordInputLayout, textError, passwordToggle));
     }
 
-    private void resetFields() {
-        emailInputLayout.setError(null);
-        passwordInputLayout.setError(null);
-        emailInputLayout.setErrorEnabled(false);
-        passwordInputLayout.setErrorEnabled(false);
-        passwordToggle.setColorFilter(ContextCompat.getColor(this, R.color.darkGreen));
-        textError.setText("");
+    private void validateField(FieldAuthValidator<Credentials> validator, Credentials credentials) {
+        try {
+            validator.validate(credentials);
+        } catch (AuthException ex) {
+            handleAuthError(ex.getErrorType(), ex.getMessage());
+        }
     }
 
     private void handleAuthError(AuthError error, String message) {
         switch(error) {
-            case EMAIL:
-                emailInputLayout.setError(message);
+            case INVALID_EMAIL:
+                DisplayError.showError(emailInputLayout, message);
                 break;
-            case PASSWORD:
-                passwordInputLayout.setError(message);
-                passwordToggle.setColorFilter(
-                        ContextCompat.getColor(this, R.color.red)
-                );
+            case INVALID_PASSWORD:
+                DisplayError.showError(passwordInputLayout, passwordToggle, message);
                 break;
-            case LOGIN:
-                textError.setText(message);
+            case INVALID_LOGIN:
+                DisplayError.showError(textError, message);
                 break;
+            default:
+                DisplayError.showError(textError, "Ошибка авторизации");
+                break;
+        }
+    }
+
+    public void showCalculator(View view) {
+        ResetInput.reset(emailInputLayout);
+        ResetInput.reset(passwordInputLayout);
+        ResetInput.reset(textError);
+        ResetInput.reset(passwordToggle);
+        try {
+            credentials.setEmail(Field.getField(emailInputEditText));
+            credentials.setPassword(Field.getField(passwordInputEditText));
+            loginController.login(loginRequest);
+            router.navigateTo(ScreenWelcomeActivity.class);
+        } catch (AuthException ex) {
+            handleAuthError(ex.getErrorType(), ex.getMessage());
         }
     }
 
@@ -140,12 +126,8 @@ public class LoginActivity extends AppCompatActivity implements BackPressHandler
         router.navigateTo(RegisterActivity.class);
     }
 
-    public void rememberAccount(View view) {
+    public void rememberAccount(View view) {}
 
-    }
-
-    public void authGoogle(View view) {
-        //РЕАЛИЗОВАТЬ
-    }
+    public void authGoogle(View view) { /*РЕАЛИЗОВАТЬ */ }
 
 }

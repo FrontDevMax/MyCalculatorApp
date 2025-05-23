@@ -1,27 +1,16 @@
 package com.example.calculatorapp.validator;
 
-import android.util.Patterns;
-
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
+import com.example.calculatorapp.model.RegisterRequest;
 
-public class UsernameValidator implements FieldValidator {
-    private String message;
-
+public class UsernameValidator implements FieldAuthValidator<RegisterRequest> {
     @Override
-    public boolean isValid(String username) {
-        if(username.equals("")) {
-            message = "Поле имя пользователя пустое!";
-            return true;
-        }  else if(username.length() > 20) {
-            message = "Превышена длина символов!";
-            return true;
+    public void validate(RegisterRequest registerRequest) throws AuthException {
+        if(registerRequest.getUsername().equals("")) {
+            throw new AuthException(AuthError.INVALID_USERNAME, "Поле имя пользователя пустое!");
+        } else if(registerRequest.getUsername().length() > 20) {
+            throw new AuthException(AuthError.INVALID_USERNAME, "Превышена длина символов!");
         }
-        return false;
-    }
-
-    @Override
-    public String getErrorMessage() {
-        return message;
     }
 }

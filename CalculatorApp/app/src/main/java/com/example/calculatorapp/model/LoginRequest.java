@@ -1,22 +1,13 @@
 package com.example.calculatorapp.model;
 
 public class LoginRequest {
-    private String email;
-    private String password;
+    private Credentials credentials;
 
-    public String getEmail() {
-        return email;
+    public LoginRequest() {
+        this.credentials = new Credentials();
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public Credentials getCredentials() {
+        return credentials;
     }
 }

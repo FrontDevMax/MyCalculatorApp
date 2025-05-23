@@ -16,6 +16,7 @@ public class HistoryActivity extends AppCompatActivity implements BackPressHandl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
+        setupBackPress(this, true);
     }
 
     public void backToCalculator(View view) {

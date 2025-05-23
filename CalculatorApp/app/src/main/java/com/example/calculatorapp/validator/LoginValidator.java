@@ -2,24 +2,24 @@ package com.example.calculatorapp.validator;
 
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
+import com.example.calculatorapp.model.Credentials;
+import com.example.calculatorapp.model.LoginRequest;
 
-public class LoginValidator {
-    private FieldValidator emailValidator, passwordValidator;
+public class LoginValidator implements FieldAuthValidator<LoginRequest> {
+    private FieldAuthValidator<Credentials> emailValidator, passwordValidator;
 
     public LoginValidator() {
         this.emailValidator = new EmailValidator();
         this.passwordValidator = new PasswordValidator();
     }
 
-    public void validateEmail(String email) throws AuthException {
-        if(emailValidator.isValid(email)) {
-            throw new AuthException(AuthError.EMAIL, emailValidator.getErrorMessage());
-        }
-    }
-
-    public void validatePassword(String password) throws AuthException {
-        if(passwordValidator.isValid(password)) {
-            throw new AuthException(AuthError.PASSWORD, passwordValidator.getErrorMessage());
+    @Override
+    public void validate(LoginRequest loginRequest) throws AuthException {
+        Credentials credentials = loginRequest.getCredentials();
+        emailValidator.validate(credentials);
+        passwordValidator.validate(credentials);
+        if(!credentials.getEmail().equals("example123@gmail.com") || !credentials.getPassword().equals("admin")) {
+            throw new AuthException(AuthError.INVALID_LOGIN, "Нет такого пользователя");
         }
     }
 }

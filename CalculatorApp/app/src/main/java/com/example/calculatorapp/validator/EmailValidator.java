@@ -4,24 +4,15 @@ import android.util.Patterns;
 
 import com.example.calculatorapp.enumeration.AuthError;
 import com.example.calculatorapp.exception.AuthException;
+import com.example.calculatorapp.model.Credentials;
 
-public class EmailValidator implements FieldValidator {
-    private String message;
-
+public class EmailValidator implements FieldAuthValidator<Credentials> {
     @Override
-    public boolean isValid(String email) {
-        if(email.equals("")) {
-            message = "Эл. почта не должна быть пустая!";
-            return true;
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            message = "Отсутствует @ или неправильно ввели что-то";
-            return true;
+    public void validate(Credentials credentials) throws AuthException {
+        if(credentials.getEmail().equals("")) {
+            throw new AuthException(AuthError.INVALID_EMAIL, "Эл. почта не должна быть пустая!");
+        } else if(!Patterns.EMAIL_ADDRESS.matcher(credentials.getEmail()).matches()) {
+            throw new AuthException(AuthError.INVALID_EMAIL, "Отсутствует @");
         }
-        return false;
-    }
-
-    @Override
-    public String getErrorMessage() {
-        return message;
     }
 }

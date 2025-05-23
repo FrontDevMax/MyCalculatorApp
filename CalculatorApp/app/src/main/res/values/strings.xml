@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CalculatorApp</string>
+    <string-array name="tasks">
+        <item>"Задача 1"</item>
+        <item>"Задача 2"</item>
+        <item>"Задача 6"</item>
+        <item>"Задача 8"</item>
+    </string-array>
 </resources>
