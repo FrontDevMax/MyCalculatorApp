@@ -13,7 +13,7 @@
         android:theme="@style/Theme.App.Transparent"
         tools:targetApi="31">
         <activity
-            android:name=".view.ScreenMainActivity"
+            android:name=".presentation.view.ScreenMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,25 +21,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".presentation.view.LoginActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.RegisterActivity"
+            android:name=".presentation.view.RegisterActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".view.CalculatorActivity"
+            android:name=".presentation.view.CalculatorActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity
-            android:name=".view.HistoryActivity"
+            android:name=".presentation.view.HistoryActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity
-            android:name=".view.ScreenWelcomeActivity"
+            android:name=".presentation.view.ScreenWelcomeActivity"
             android:exported="true">
         </activity>
     </application>

@@ -15,4 +15,9 @@
     <style name="MyDialogButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/darkGreen</item>
     </style>
+
+    <style name="ErrorPassword" parent="Widget.Design.TextInputLayout">
+        <item name="endIconMode">password_toggle</item>
+        <item name="endIconTint">@color/red</item>
+    </style>
 </resources>

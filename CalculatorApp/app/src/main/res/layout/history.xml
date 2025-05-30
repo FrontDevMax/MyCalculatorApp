@@ -40,13 +40,23 @@
             android:textStyle="bold"
             android:textSize="40dp"
             android:paddingBottom="10dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/darkGreen"
+            android:textColor="@color/white"
+            android:text="Очистить"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="clearLogs"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:scrollbars="vertical">
             <TextView
-                android:id="@+id/textHistory"
+                android:id="@+id/logs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text=""
