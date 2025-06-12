@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Transparent" parent="Base.Theme.CalculatorApp">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@drawable/bg_gradient</item>
+        <item name="android:textColor">@color/darkGreen</item>
+    </style>
+
+    <style name="MyAlertDialogTheme" parent="Theme.Material3.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/MyDialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MyDialogButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/MyDialogButtonStyle</item>
+    </style>
+
+    <style name="MyDialogButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/darkGreen</item>
+    </style>
+
+    <style name="InputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="boxStrokeColor">@color/darkGreen</item>
+        <item name="hintTextColor">@color/darkGreen</item>
+        <item name="backgroundTint">@color/green</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="errorIconTint">@color/red</item>
+        <item name="errorTextColor">@color/red</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="cursorColor">@color/darkGreen</item>
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">""</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Button" parent="Widget.Material3.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_height">58dp</item>
+        <item name="backgroundTint">@color/darkGreen</item>
+    </style>
+
+    <style name="LinearLayout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>
