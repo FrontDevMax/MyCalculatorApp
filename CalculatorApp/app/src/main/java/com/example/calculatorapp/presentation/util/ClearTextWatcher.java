@@ -23,7 +23,6 @@ public class ClearTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         ResetInput.reset(inputLayout);
         ResetInput.reset(textView);
         ResetInput.reset(passwordToggle);
